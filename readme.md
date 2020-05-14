@@ -136,11 +136,18 @@ public class KafkaProducerConfig {
 
 ```java
 @Configuration
-public class KafkaNewTopicConfig {
+public class KafkaTopicConfig {
+
 
 	@Value("${kafka.topic}")
 	private String TOPIC_NAME;
 
+	@Value("${kafka.bootstrap-servers}")
+	private String bootstrapServers;
+
+	  @Value(value = "${greeting.topic.name}")
+	    private String greetingTopicName;
+	  
 	@Bean
 	public NewTopic mySpringKafkaMessageTopic() {
 	  return TopicBuilder.name(TOPIC_NAME)
@@ -149,7 +156,17 @@ public class KafkaNewTopicConfig {
 	    .compact()
 	    .build();
 	}
-}
+	
+	
+	@Bean
+	public NewTopic mySpringGreetingTopic() {
+	  return TopicBuilder.name(greetingTopicName)
+	    .partitions(1)
+	    .replicas(1)
+	    .compact()
+	    .build();
+	}
+	
 ```
 
 
